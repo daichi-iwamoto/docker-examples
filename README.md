@@ -9,3 +9,5 @@
 | docker rmi [イメージ名] | イメージの削除 |
 | docker build -t [イメージ名:タグ名] [dockerfileのディレクトリ] | dockerfileを元にイメージを作成する |
 | docker run [-it] [-d] [p] [-v] [--name コンテナ名] [イメージ名] | 指定したイメージを元にコンテナを作成 |
+| docker exec [-it] [コンテナ名] bash | bashでコンテナ内作業を行う |
+| docker cp | コンテナにファイルをコピーしたりしてきたりする |

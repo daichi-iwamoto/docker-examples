@@ -1,36 +1,42 @@
-# Docker + CentOS8 + Apache + Python
+# Docker + Ubuntu + Apache + PHP
 
-dockerでCentOS8環境を構築し、Apache・Pythonをインストール
+dockerでUbuntu環境を構築し、Apache・Pythonをインストール
 
 ## Step.1 使用するDocker Imageの取得
 
-`Docker Hub`上にある公式の`centOS` imageを使用する。
+`Docker Hub`上にある公式の`Ubuntu` imageを使用する。
 
 ```
 # imageのpull
-docker pull centos
+docker pull ubuntu
 ```
 
 ## Step.2 Dockerfileの作成
 
-pullしてきた`centos`のimageを元に、独自のimageを作成する`Dockerfile`を作成する。   
-今回は`centOS8`を使用する為、`Dockerfile`に下記を記載し。imageを作成する。
+pullしてきた`Ubuntu`のimageを元に、独自のimageを作成する`Dockerfile`を作成する。   
+今回は`Ubuntu`を使用する為、`Dockerfile`に下記を記載し。imageを作成する。
 
 ```
-FROM centos:8
+FROM ubuntu
 
-RUN yum update -y && yum clean all
+RUN apt-get update -y
+
+# time zone setting
+RUN apt-get install -y tzdata
+
+# PHP install
+RUN apt-get install -y php
 
 # Apache install
-RUN yum install -y httpd
-RUN yum install -y python3
+RUN apt-get install -y apache2
 
 EXPOSE 80
 
-CMD ["/usr/sbin/httpd","-D","FOREGROUND"]
+# Apache start
+CMD ["apachectl","-D","FOREGROUND"]
 ```
 
-`Dockerfile`では`apache`,`python3`のインストールを行い  
+`Dockerfile`では`apache`,`php`のインストールを行い  
 解放ポートの指定、`apache`のデタッチモードでの実行を行っている。
 
 ## Step.3 イメージの作成
