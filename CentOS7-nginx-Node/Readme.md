@@ -4,8 +4,7 @@ dockerでCentOS7環境を構築し、Nginx・Node.jsをインストール
 
 ## Step.1 Dockerfileの作成
 
-pullしてきた`Ubuntu`のimageを元に、独自のimageを作成する`Dockerfile`を作成する。   
-今回は`Ubuntu`を使用する為、`Dockerfile`に下記を記載し。imageを作成する。
+公式の`Ubuntu`のイメージを元に、`Dockerfile`を元に独自のイメージを作成する。  
 
 ```
 FROM centos:7
@@ -25,7 +24,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-`Dockerfile`では`Node.js`,`Nginx`のインストールを行い  
+`Dockerfile`では`Node.js`,`Nginx`のインストールを行い、  
 解放ポートの指定、`Nginx`のデタッチモードでの実行を行っている。
 
 ## Step.2 イメージの作成
@@ -46,9 +45,13 @@ docker run -itd -v [ローカルのマウント元ディレクトリ]:/usr/share
 
 ※ `bash`を使用している場合ローカルのディレクトリの先頭に`/`を追加でつける必要がある。
 
-これでコンテナが立ち上がり、Pythonが使える仮想環境が作成されました。  
-コンテナ内に入りたい場合は下記で入ることができます。
+これでコンテナが立ち上がり、Pythonが使える仮想環境が作成される。  
+http://localhost:8080/ を確認すると、テスト用の『index.html』が表示される。
+
+コンテナ内に入りたい場合は下記で入ることが可能。  
 
 ```
 docker exec -it [コンテナ名] bash
 ```
+
+上記コマンドでコンテナ内に入ることで、ホストにインストールしていない`node`を使用することができる。
