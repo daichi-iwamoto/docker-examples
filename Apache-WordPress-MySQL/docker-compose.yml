@@ -1,0 +1,47 @@
+version: '3'
+services: 
+  mysql:
+    container_name: mysql # 作成されるコンテナ名
+    build: ./mysql # 元になるDockerfileの場所
+    image: mysql:5.7 # 作成されるイメージ名
+
+    # DB設定
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress_db
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: test
+      TZ: 'Asia/Tokyo'
+
+    # データの永続化
+    volumes:
+      - [ルートからの絶対パス]/docker-examples/Apache-WordPress-MySQL/data/db:/var/lib/mysql
+    
+    # 公開ポート
+    ports:
+      - "3306:3306"
+
+  wordpress:
+    container_name: apache-wordpress # 作成されるコンテナ名
+    build: ./apache-wordpress # 元になるDockerfileの場所
+    image: apache-wordpress # 作成されるイメージ名
+
+    # DB設定
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_NAME: wordpress_db
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: test
+      TZ: "Asia/Tokyo"
+
+    # 公開ポート
+    ports:
+      - "8080:80"
+    
+    # リンク先のサービス名
+    links:
+      - mysql
+    
+    # データの永続化
+    volumes:
+      - ./data/html:/var/www/html
